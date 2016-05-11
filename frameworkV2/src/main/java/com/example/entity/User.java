@@ -1,9 +1,11 @@
 package com.example.entity;
 
+import java.io.Serializable;
+
 /**
  * @author GuoLong
  */
-public class User {
+public class User implements Serializable{
 
     private  String id;
 
