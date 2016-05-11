@@ -12,6 +12,7 @@
         <module>frameworkV0</module>
         <module>frameworkV1</module>
         <module>frameworkV2</module>
+        <module>frameworkV3</module>
     </modules>
 
     <properties>

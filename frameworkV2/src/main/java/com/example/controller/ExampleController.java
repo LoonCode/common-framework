@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping(value = "/example")
+@RequestMapping(value = "")
 public class ExampleController {
 
     private final Logger logger = LoggerFactory.getLogger(ExampleController.class);

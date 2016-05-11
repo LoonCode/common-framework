@@ -70,6 +70,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
         MappingJackson2JsonView defaultView = new MappingJackson2JsonView();
         defaultView.setExtractValueFromSingleKeyModel(true);
+        defaultView.setPrettyPrint(true);
 
         resolver.setDefaultViews(Lists.<View>newArrayList(defaultView));
         return resolver;
