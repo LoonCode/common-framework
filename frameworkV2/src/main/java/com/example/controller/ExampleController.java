@@ -16,7 +16,7 @@ public class ExampleController {
 
     private final Logger logger = LoggerFactory.getLogger(ExampleController.class);
 
-    @RequestMapping("/index.do")
+    @RequestMapping("/index")
     public String loadExample(Model model) {
         model.addAttribute("pageTitle", "Example Freemarker Page");
 

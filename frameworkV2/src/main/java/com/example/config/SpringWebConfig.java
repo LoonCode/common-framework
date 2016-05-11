@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -41,15 +39,20 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 @ComponentScan(basePackages = "com.example.controller")
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 
-        Map<String,MediaType> mediaTypes=Maps.newHashMap();
-        mediaTypes.put("do",MediaType.TEXT_HTML);
-        mediaTypes.put("json",MediaType.APPLICATION_JSON);
-
-        configurer.ignoreAcceptHeader(true).defaultContentType(MediaType.TEXT_HTML).mediaTypes(mediaTypes);
+        configurer.ignoreAcceptHeader(true)
+//                .favorPathExtension(true).useJaf(false)
+//                .favorParameter(true).parameterName("mediaType")
+//                .mediaType("do", MediaType.TEXT_HTML)
+//                .mediaType("json", MediaType.APPLICATION_JSON)
+                .defaultContentType(MediaType.TEXT_HTML);
     }
 
     /*
@@ -79,10 +82,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
 
     @Bean
     public InternalResourceViewResolver jspViewResolver() {
@@ -95,14 +94,13 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public FreeMarkerViewResolver freeMarkerViewResolver() {
-        FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
+        FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
+        viewResolver.setPrefix("/ftl/");
+        viewResolver.setSuffix(".ftl");
+        viewResolver.setContentType("text/html;charset=UTF-8");
+        viewResolver.setCache(false); // (don't disable the cache in production!)
 
-        resolver.setPrefix("/views/ftl");
-        resolver.setSuffix(".ftl");
-
-        resolver.setContentType("text/html;charset=UTF-8");
-
-        return resolver;
+        return viewResolver;
     }
 
     @Bean
@@ -111,19 +109,9 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
 
         configurer.setServletContext(applicationContext.getServletContext());
-
         freemarker.template.Configuration configuration = configurer.createConfiguration();
-
-        // Make sure all freemarker files go in /WEB-INF/ftl/
-        // This helps keep the code organized
-        configuration.setServletContextForTemplateLoading(applicationContext.getServletContext(), "/WEB-INF/views/ftl/");
-
-        // When starting a new FreeMarker project, always set the incompatible improvements to the version
-        // you are using.
+        configuration.setServletContextForTemplateLoading(applicationContext.getServletContext(), "/WEB-INF/views/");
         configuration.setIncompatibleImprovements(freemarker.template.Configuration.VERSION_2_3_23);
-
-        // Use this for local development. When a template exception occurs,
-        // it will format the error using HTML so it can be easily read
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
 
         // Makre sure everything is UTF-8 from the beginning to avoid headaches
@@ -138,7 +126,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    SessionLocaleResolver localeResolver() {
+    public SessionLocaleResolver localeResolver() {
         // Enable the SessionLocaleResolver
         // Even if you don't localize your webapp you should still specify this
         // so that things like numbers, dates, and currencies are formatted properly
