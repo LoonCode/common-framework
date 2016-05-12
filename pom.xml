@@ -13,6 +13,7 @@
         <module>frameworkV1</module>
         <module>frameworkV2</module>
         <module>frameworkV3</module>
+        <module>frameworkV4</module>
     </modules>
 
     <properties>
@@ -46,24 +47,11 @@
             <version>1.1.1.RELEASE</version>
         </dependency>
 
-        <!--Spring security-->
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>4.0.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>4.0.4.RELEASE</version>
-        </dependency>
-
-
 
         <dependency>
             <groupId>javax.servlet</groupId>
