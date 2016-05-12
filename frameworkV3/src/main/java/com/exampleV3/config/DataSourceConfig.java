@@ -24,6 +24,9 @@ public class DataSourceConfig {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private DataSource dataSource;
+
 
     @Bean
     @Profile("dev")
@@ -38,15 +41,19 @@ public class DataSourceConfig {
 
 
     @Bean
-    @Profile("test")
+    @Profile("loacl")
     public DataSource testDataSource() {
 
         DruidDataSource dataSource = new DruidDataSource();
 
         // 基本属性 url、user、password
-        dataSource.setUrl(env.getProperty("jdbc.url"));
-        dataSource.setUsername(env.getProperty("jdbc.username"));
-        dataSource.setPassword(env.getProperty("jdbc.password"));
+//        dataSource.setUrl(env.getProperty("jdbc.url"));
+//        dataSource.setUsername(env.getProperty("jdbc.username"));
+//        dataSource.setPassword(env.getProperty("jdbc.password"));
+
+        dataSource.setUrl("jdbc:mysql://localhost:3306/example");
+        dataSource.setUsername("root");
+        dataSource.setPassword("");
 
         // 配置初始化大小、最小、最大
         dataSource.setInitialSize(1);
@@ -79,13 +86,13 @@ public class DataSourceConfig {
 
     @Bean
     public DataSourceTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean
     public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setDataSource(dataSource);
         sessionFactory.setTypeAliasesPackage("org.example.entity");
         return sessionFactory;
     }

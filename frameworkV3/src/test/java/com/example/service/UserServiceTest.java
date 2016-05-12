@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles(profiles = "dev")
+@ActiveProfiles(profiles = "loacl")
 @WebAppConfiguration
 @ContextConfiguration(classes = { SpringWebConfig.class, SpringRootConfig.class})
 public class UserServiceTest {
