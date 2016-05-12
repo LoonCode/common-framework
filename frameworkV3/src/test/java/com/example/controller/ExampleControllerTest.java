@@ -38,7 +38,7 @@ public class ExampleControllerTest {
 
     @Test
     public void testLoadExample() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/example/index"))
+        MvcResult result = this.mockMvc.perform(get("/jsonLoad"))
                 .andExpect(status().isOk())
                 .andReturn();
     }

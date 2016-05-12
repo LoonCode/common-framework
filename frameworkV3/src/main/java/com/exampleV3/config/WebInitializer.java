@@ -3,6 +3,7 @@ package com.exampleV3.config;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -31,7 +32,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     public void onStartup(ServletContext servletContext) throws ServletException {
 
         super.onStartup(servletContext);
-        servletContext.setInitParameter("spring.profiles.active", "dev");
+
+        servletContext.setInitParameter(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, "loacl");
     }
 
 
